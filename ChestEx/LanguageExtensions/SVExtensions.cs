@@ -35,6 +35,7 @@ using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
+using StardewValley.Enchantments;
 
 namespace ChestEx.LanguageExtensions {
   public static class SVExtensions {
@@ -361,9 +362,9 @@ namespace ChestEx.LanguageExtensions {
                 // Categories
                 height += boots.getNumberOfDescriptionCategories() * font_y_diff + contentPadding;
                 // Defense
-                if (boots.defenseBonus > 0) width = Math.Max(width, (Int32)font.MeasureString(Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", 9999, 9999)).X + buffer);
+                if (boots.defenseBonus.Value > 0) width = Math.Max(width, (Int32)font.MeasureString(Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", 9999, 9999)).X + buffer);
                 // Immunity
-                if (boots.immunityBonus > 0)
+                if (boots.immunityBonus.Value > 0)
                   width = Math.Max(width, (Int32)font.MeasureString(Game1.content.LoadString("Strings\\UI:ItemHover_ImmunityBonus", 9999, 9999)).X + buffer);
               }
 
@@ -378,14 +379,14 @@ namespace ChestEx.LanguageExtensions {
               {
                 Int32 num_effects = 0;
                 // Defense
-                if (ring.GetsEffectOfRing(810)) {
+                if (ring.GetsEffectOfRing(810.ToString())) {
                   width = Math.Max(width, (Int32)font.MeasureString(Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", 9999)).X + buffer);
                   num_effects++;
                 }
                 // Immunity
-                if (ring.GetsEffectOfRing(887)) num_effects++;
+                if (ring.GetsEffectOfRing($"{887}")) num_effects++;
                 // Luck
-                if (ring.GetsEffectOfRing(859)) num_effects++;
+                if (ring.GetsEffectOfRing($"{859}")) num_effects++;
 
                 height += num_effects * font_y_diff;
               }
@@ -399,7 +400,7 @@ namespace ChestEx.LanguageExtensions {
               height += (Int32)font.MeasureString(desc_text).Y;
               // Stat effects
               {
-                if (!weapon.isScythe(weapon.IndexOfMenuItemView)) {
+                if (!weapon.isScythe(/* weapon.IndexOfMenuItemView */)) {
                   height += weapon.getNumberOfDescriptionCategories() * font_y_diff + contentPadding;
                   // Damage
                   width = Math.Max(width, (Int32)font.MeasureString(Game1.content.LoadString("Strings\\UI:ItemHover_Damage", 9999, 9999)).X + buffer);
@@ -450,7 +451,7 @@ namespace ChestEx.LanguageExtensions {
 
               break;
             }
-          case StardewValley.Object obj when obj.edibility != -300: {
+          case StardewValley.Object obj when obj.Edibility != -300: {
               healAmountToDisplay = obj.staminaRecoveredOnConsumption();
               height += (Int32)font.MeasureString(text).Y;
               height += healAmountToDisplay != -1 ? font_y_diff * (healAmountToDisplay > 0 ? 2 : 1) : 52;
@@ -571,7 +572,7 @@ namespace ChestEx.LanguageExtensions {
 
               // Defense
               {
-                if (boots.defenseBonus > 0) {
+                if (boots.defenseBonus.Value > 0) {
                   Utility.drawWithShadow(spriteBatch,
                                          Game1.mouseCursors,
                                          new Vector2(x, y),
@@ -584,7 +585,7 @@ namespace ChestEx.LanguageExtensions {
                                          1.0f,
                                          shadowIntensity: 0.2f);
                   spriteBatch.DrawStringEx(font,
-                                           Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", boots.defenseBonus),
+                                           Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", boots.defenseBonus.Value),
                                            new Vector2(x + 48, y + 8),
                                            colours.mForegroundColour,
                                            drawShadow: true,
@@ -595,7 +596,7 @@ namespace ChestEx.LanguageExtensions {
 
               // Immunity
               {
-                if (boots.immunityBonus > 0) {
+                if (boots.immunityBonus.Value > 0) {
                   Utility.drawWithShadow(spriteBatch,
                                          Game1.mouseCursors,
                                          new Vector2(x, y),
@@ -608,7 +609,7 @@ namespace ChestEx.LanguageExtensions {
                                          1.0f,
                                          shadowIntensity: 0.2f);
                   spriteBatch.DrawStringEx(font,
-                                           Game1.content.LoadString("Strings\\UI:ItemHover_ImmunityBonus", boots.immunityBonus),
+                                           Game1.content.LoadString("Strings\\UI:ItemHover_ImmunityBonus", boots.immunityBonus.Value),
                                            new Vector2(x + 48, y + 8),
                                            colours.mForegroundColour,
                                            drawShadow: true,
@@ -627,7 +628,7 @@ namespace ChestEx.LanguageExtensions {
               y += (Int32)font.MeasureString(desc_text).Y + 4;
 
               // Defense
-              if (ring.GetsEffectOfRing(810)) {
+              if (ring.GetsEffectOfRing(810.ToString())) {
                 Utility.drawWithShadow(spriteBatch,
                                        Game1.mouseCursors,
                                        new Vector2(x, y),
@@ -640,7 +641,7 @@ namespace ChestEx.LanguageExtensions {
                                        1.0f,
                                        shadowIntensity: 0.2f);
                 spriteBatch.DrawStringEx(font,
-                                         Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", 5 * ring.GetEffectsOfRingMultiplier(810)),
+                                         Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", 5 * ring.GetEffectsOfRingMultiplier(810.ToString())),
                                          new Vector2(x + 48, y + 8),
                                          colours.mForegroundColour,
                                          drawShadow: true,
@@ -649,7 +650,7 @@ namespace ChestEx.LanguageExtensions {
               }
 
               // Immunity
-              if (ring.GetsEffectOfRing(887)) {
+              if (ring.GetsEffectOfRing(887.ToString())) {
                 Utility.drawWithShadow(spriteBatch,
                                        Game1.mouseCursors,
                                        new Vector2(x, y),
@@ -662,7 +663,7 @@ namespace ChestEx.LanguageExtensions {
                                        1.0f,
                                        shadowIntensity: 0.2f);
                 spriteBatch.DrawStringEx(font,
-                                         Game1.content.LoadString("Strings\\UI:ItemHover_ImmunityBonus", 4 * ring.GetEffectsOfRingMultiplier(887)),
+                                         Game1.content.LoadString("Strings\\UI:ItemHover_ImmunityBonus", 4 * ring.GetEffectsOfRingMultiplier(887.ToString())),
                                          new Vector2(x + 48, y + 8),
                                          colours.mForegroundColour,
                                          drawShadow: true,
@@ -671,7 +672,7 @@ namespace ChestEx.LanguageExtensions {
               }
 
               // Luck
-              if (ring.GetsEffectOfRing(859)) {
+              if (ring.GetsEffectOfRing(859.ToString())) {
                 Utility.drawWithShadow(spriteBatch,
                                        Game1.mouseCursors,
                                        new Vector2(x, y),
@@ -684,7 +685,7 @@ namespace ChestEx.LanguageExtensions {
                                        1.0f,
                                        shadowIntensity: 0.2f);
                 spriteBatch.DrawStringEx(font,
-                                         $"+{Game1.content.LoadString("Strings\\UI:ItemHover_Buff4", ring.GetEffectsOfRingMultiplier(859))}",
+                                         $"+{Game1.content.LoadString("Strings\\UI:ItemHover_Buff4", ring.GetEffectsOfRingMultiplier(859.ToString()))}",
                                          new Vector2(x + 48, y + 8),
                                          colours.mForegroundColour,
                                          drawShadow: true,
@@ -702,7 +703,7 @@ namespace ChestEx.LanguageExtensions {
                 spriteBatch.DrawStringEx(font, desc_text, new Vector2(x, y), colours.mForegroundColour, drawShadow: true, textShadowColour: text_shadow_colour);
                 y += (Int32)font.MeasureString(desc_text).Y + 4;
               }
-              if (!weapon.isScythe(weapon.IndexOfMenuItemView)) {
+              if (!weapon.isScythe(/* weapon.IndexOfMenuItemView */)) {
                 // Damage
                 {
                   String desc_text = Game1.content.LoadString("Strings\\UI:ItemHover_Damage", weapon.minDamage.Value, weapon.maxDamage.Value);
@@ -1034,7 +1035,7 @@ namespace ChestEx.LanguageExtensions {
           case FishingRod fishing_rod: {
               Int32 y_offset = fishing_rod.enchantments.Any() ? 8 : 4;
 
-              if (fishing_rod.upgradeLevel > 1) {
+              if (fishing_rod.UpgradeLevel > 1) {
                 if (fishing_rod.attachments[0] is null) {
                   spriteBatch.Draw(TexturePresets.gMenuTextureGrayScale,
                                    new Vector2(x, y + y_offset),
@@ -1062,7 +1063,7 @@ namespace ChestEx.LanguageExtensions {
                 y += 68;
               }
 
-              if (fishing_rod.upgradeLevel > 2) {
+              if (fishing_rod.UpgradeLevel > 2) {
                 if (fishing_rod.attachments[1] is null) {
                   spriteBatch.Draw(TexturePresets.gMenuTextureGrayScale,
                                    new Vector2(x, y + y_offset),
@@ -1181,30 +1182,63 @@ namespace ChestEx.LanguageExtensions {
 
     public static void DrawToolTip(this SpriteBatch spriteBatch, SpriteFont font, String text, String title,
                                    Item hoveredItem, Boolean heldItem = false, Int32 currencySymbol = IClickableMenu.currency_g, Int32 moneyAmountToShowAtBottom = -1,
-                                   Int32 contentPadding = 4, Colours colours = null, Single alpha = 1.0f, Single borderScale = 1.0f) {
-      var hovered_object = hoveredItem as StardewValley.Object;
-      Boolean edible_item = hovered_object != null && hovered_object.edibility != -300;
-      Int32 heal_amount = edible_item ? hovered_object.edibility : -1;
-      String[] buff_icons = null;
+                                   Int32 contentPadding = 4, Colours colours = null, Single alpha = 1.0f, Single borderScale = 1.0f) 
+    {
+      if(hoveredItem is StardewValley.Object hoveredObject)
+      {
+        // var hoveredItemData = Game1.objectData.TryGetValue(hoveredObject.ItemId)
+        var edibleItem = hoveredObject.Edibility > -300;
+        var healAmount = edibleItem ? hoveredObject.Edibility : -1; // hoveredItem.healthRecoveredOnConsumption();
+        // string[] buffIcons = null;
+        if(edibleItem)
+        {
+          // var buffs = Game1.objectData[hoveredObject.ItemId].Buffs;
+          // var b = buffs[0].;
+          // buffIcons = hoveredItem.ModifyItemBuffs(buffs)
+        DrawHoverText(spriteBatch,
+                      font,
+                      text == null ? null : new StringBuilder(text),
+                      heldItem ? 40 : 0,
+                      heldItem ? 40 : 0,
+                      moneyAmountToShowAtBottom,
+                      title,
+                      healAmount,
+                      null,
+                      hoveredItem,
+                      currencySymbol,
+                      contentPadding,
+                      colours,
+                      alpha,
+                      borderScale);          
+        }
+        
+        
+      }
+        // var hovered_object = hoveredItem as StardewValley.Object;
+        // var hoveredItemData = Game1.objectData[hovered_object.ItemId];
+        // Boolean edible_item = hovered_object != null && hovered_object.Edibility != -300;
+        // Int32 heal_amount = edible_item ? hovered_object.Edibility : -1;
+        // String[] buff_icons = null;
 
-      if (edible_item && Game1.objectInformation[hovered_object.parentSheetIndex].Split('/') is var obj_info && obj_info.Length > 7)
-        buff_icons = hoveredItem.ModifyItemBuffs(obj_info[7].Split(' '));
+        // // if(edible_item && hoveredItemData)
+        // if (edible_item && Game1.objectInformation[hovered_object.parentSheetIndex].Split('/') is var obj_info && obj_info.Length > 7)
+        //   buff_icons = hoveredItem.ModifyItemBuffs(obj_info[7].Split(' '));
 
-      DrawHoverText(spriteBatch,
-                    font,
-                    text == null ? null : new StringBuilder(text),
-                    heldItem ? 40 : 0,
-                    heldItem ? 40 : 0,
-                    moneyAmountToShowAtBottom,
-                    title,
-                    heal_amount,
-                    buff_icons,
-                    hoveredItem,
-                    currencySymbol,
-                    contentPadding,
-                    colours,
-                    alpha,
-                    borderScale);
+        // DrawHoverText(spriteBatch,
+        //               font,
+        //               text == null ? null : new StringBuilder(text),
+        //               heldItem ? 40 : 0,
+        //               heldItem ? 40 : 0,
+        //               moneyAmountToShowAtBottom,
+        //               title,
+        //               heal_amount,
+        //               buff_icons,
+        //               hoveredItem,
+        //               currencySymbol,
+        //               contentPadding,
+        //               colours,
+        //               alpha,
+        //               borderScale);
     }
   }
 }

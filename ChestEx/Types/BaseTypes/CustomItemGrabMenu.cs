@@ -162,9 +162,9 @@ namespace ChestEx.Types.BaseTypes {
 
       if (createChestColorPicker) {
         this.chestColorPicker = new DiscreteColorPicker(source_menu_bounds.X + 16, source_menu_bounds.Y - 16, 0, new Chest(true));
-        this.chestColorPicker.colorSelection = this.chestColorPicker.getSelectionFromColor(this.GetSourceAs<Chest>().playerChoiceColor);
+        this.chestColorPicker.colorSelection = DiscreteColorPicker.getSelectionFromColor(this.GetSourceAs<Chest>().playerChoiceColor.Value);
         // TODO: this crashes?
-        ((Chest)this.chestColorPicker.itemToDrawColored).playerChoiceColor.Value = this.chestColorPicker.getColorFromSelection(this.chestColorPicker.colorSelection);
+        ((Chest)this.chestColorPicker.itemToDrawColored).playerChoiceColor.Value = DiscreteColorPicker.getColorFromSelection(this.chestColorPicker.colorSelection);
 
         this.colorPickerToggleButton =
           new ClickableTextureComponent("",
@@ -182,14 +182,14 @@ namespace ChestEx.Types.BaseTypes {
 
         this.discreteColorPickerCC = new List<ClickableComponent>();
 
-        for (Int32 j = 0; j < this.chestColorPicker.totalColors; j++)
+        for (Int32 j = 0; j < DiscreteColorPicker.totalColors; j++)
           this.discreteColorPickerCC.Add(new ClickableComponent(new Rectangle(this.chestColorPicker.xPositionOnScreen + borderWidth / 2 + j * 9 * 4,
                                                                               this.chestColorPicker.yPositionOnScreen + borderWidth / 2,
                                                                               36,
                                                                               28),
                                                                 "") {
             myID = j + 4343,
-            rightNeighborID = j < this.chestColorPicker.totalColors - 1 ? j + 4343 + 1 : -1,
+            rightNeighborID = j < DiscreteColorPicker.totalColors - 1 ? j + 4343 + 1 : -1,
             leftNeighborID = j > 0 ? j + 4343 - 1 : -1,
             downNeighborID = this.ItemsToGrabMenu != null && this.ItemsToGrabMenu.inventory.Count > 0 ? 53910 : 0
           });
@@ -511,7 +511,7 @@ namespace ChestEx.Types.BaseTypes {
       // Handle default chest colour picker
       if (this.chestColorPicker is DiscreteColorPicker picker) {
         picker.receiveLeftClick(x, y);
-        if (this.mSVSourceItem is Chest chest && picker.visible && picker.isWithinBounds(x, y)) chest.playerChoiceColor.Value = picker.getColorFromSelection(picker.colorSelection);
+        if (this.mSVSourceItem is Chest chest && picker.visible && picker.isWithinBounds(x, y)) chest.playerChoiceColor.Value = DiscreteColorPicker.getColorFromSelection(picker.colorSelection);
 
         if (this.colorPickerToggleButton is not null && this.colorPickerToggleButton.containsPoint(x, y)) {
           Game1.player.showChestColorPicker.Flip();
@@ -616,7 +616,7 @@ namespace ChestEx.Types.BaseTypes {
     #region Shadowed ItemGrabMenu functions (to redirect to CustomItemGrabMenu)
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public new CustomItemGrabMenu setEssential(Boolean essential) {
+    public CustomItemGrabMenu setEssential(Boolean essential) {
       this.mSVEssential = essential;
 
       return this;

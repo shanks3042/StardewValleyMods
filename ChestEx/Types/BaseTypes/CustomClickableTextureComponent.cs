@@ -100,7 +100,7 @@ namespace ChestEx.Types.BaseTypes {
     /// <summary>Calls <see cref="Draw(SpriteBatch)"/>.</summary>
     [UsedImplicitly]
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Game code")]
-    public new void draw(SpriteBatch b, Color c, Single layerDepth, Int32 frameOffset = 0) { this.Draw(b); }
+    public /* new */ void draw(SpriteBatch b, Color c, Single layerDepth, Int32 frameOffset = 0) { this.Draw(b); }
 
     /// <summary>Calls <see cref="Draw(SpriteBatch)"/>.</summary>
     [UsedImplicitly]

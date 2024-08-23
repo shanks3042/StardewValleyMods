@@ -29,9 +29,15 @@ using StardewModdingAPI;
 namespace ChestEx.LanguageExtensions {
   public static class HarmonyExtensions {
     public static void PatchEx(this Harmony harmony, MethodBase original, HarmonyMethod prefix = null, HarmonyMethod postfix = null,
-                               HarmonyMethod transpiler = null, String reason = "") {
+                               HarmonyMethod transpiler = null, String reason = "") 
+    {
       GlobalVars.gSMAPIMonitor.Log($"Trying to patch '{original}'...", LogLevel.Debug);
       String details = String.IsNullOrWhiteSpace(reason) ? String.Empty : $" to {reason}";
+
+      if(original == null)
+      {
+        return;
+      }
 
       var prev = Harmony.GetPatchInfo(original);
       if (harmony.Patch(original, prefix, postfix, transpiler) is null) GlobalVars.gSMAPIMonitor.Log($"Could NOT patch '{original}'{details}!", LogLevel.Error);

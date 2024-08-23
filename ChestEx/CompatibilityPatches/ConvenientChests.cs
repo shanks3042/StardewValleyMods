@@ -161,6 +161,10 @@ namespace ChestEx.CompatibilityPatches {
       }
 
       public static void Install() {
+        if(sType == null)
+        {
+          return;
+        }
         GlobalVars.gHarmony.PatchEx(AccessTools.Method(sType, "ReceiveLeftClick"),
                                     new HarmonyMethod(AccessTools.Method(typeof(WidgetHost), "prefixReceiveLeftClick")),
                                     reason: "fix ConvenientChests' click handler");

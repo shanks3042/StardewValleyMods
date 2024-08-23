@@ -1,11 +1,11 @@
 ﻿{
    "Name": "ChestEx",
-   "Author": "berkayylmao",
-   "Version": "2.2.0",
+   "Author": "shanks3042,berkayylmao",
+   "Version": "2.2.1",
    "Description": "Get more out of your chests and fridges! Set custom sizes, colours, names and more...",
    "UniqueID": "berkayylmao.ChestEx",
    "EntryDll": "ChestEx.dll",
-   "MinimumApiVersion": "3.0.0",
+   "MinimumApiVersion": "4.0.0",
    "UpdateKeys": [ "Nexus:4180" ],
    "Dependencies": [
       {
